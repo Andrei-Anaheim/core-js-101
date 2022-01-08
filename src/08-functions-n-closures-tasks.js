@@ -23,8 +23,8 @@
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.asin(x))
  *
  */
-function getComposition(/* f, g */) {
-  throw new Error('Not implemented');
+function getComposition(f, g) {
+  return (x) => f(g(x));
 }
 
 
@@ -44,8 +44,8 @@ function getComposition(/* f, g */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  return (x) => x ** exponent;
 }
 
 
@@ -62,8 +62,14 @@ function getPowerFunction(/* exponent */) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...args) {
+  const koeff = args;
+  return (x) => {
+    if (koeff.length === 1) return koeff[0];
+    if (koeff.length === 2) return x * koeff[0] + koeff[1];
+    if (koeff.length === 3) return koeff[0] * (x ** 2) + koeff[1] * x + koeff[2];
+    return null;
+  };
 }
 
 
@@ -81,8 +87,14 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  const cached = {};
+  return (x) => {
+    if (!(x in cached)) {
+      cached[x] = func(x);
+    }
+    return cached[x];
+  };
 }
 
 
@@ -147,8 +159,10 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args1) {
+  return function fn2(...args2) {
+    return fn.apply(null, [...args1, ...args2]);
+  };
 }
 
 
@@ -169,8 +183,13 @@ function partialUsingArguments(/* fn, ...args1 */) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  throw new Error('Not implemented');
+function getIdGeneratorFunction(startFrom) {
+  let cache = startFrom;
+  return () => {
+    const currentCache = cache;
+    cache += 1;
+    return currentCache;
+  };
 }
 
 
